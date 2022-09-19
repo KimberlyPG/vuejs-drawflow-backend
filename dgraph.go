@@ -24,7 +24,7 @@ func goDotEnvVariable(key string) string {
 func newClient() *dgo.Dgraph {
 	dotenv := goDotEnvVariable("key")
 	// fmt.Printf("godotenv : %s = %s \n", "KEY", dotenv)
-	conn, err := dgo.DialCloud("https://blue-surf-600108.us-east-1.aws.cloud.dgraph.io/graphql", dotenv)
+	conn, err := dgo.DialCloud("https://blue-surf-610008.us-east-1.aws.cloud.dgraph.io/graphql", dotenv)
 	if err != nil {
 		log.Fatal(err)
 	}
