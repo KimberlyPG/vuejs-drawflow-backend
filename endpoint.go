@@ -2,49 +2,50 @@ package main
 
 const getNodeData = `
 {
-get(func: uid(0xfffd8d6ab2de3fbe)) {
-    data {
-    class
-    data{
-      number
-      result
-    }
-    html
-    id
-    inputs{
-      input_1{
-          connections{
-            node
-            input
+  get(func: uid(0xfffd8d6ab2de70ec)) {
+      data {
+        id
+        name
+        data{
+          number
+          result
         }
-      }
-      input_2{
-        connections{
-            node
-            input
-        }
-            }
-    }
-    name
-    outputs{
-      output_1{
-        connections{
+        class
+        html
+        typenode
+        inputs{
+          input_1{
+              connections{
                 node
-                        output
+                input
+            }
+          }
+          input_2{
+            connections{
+                node
+                input
+            }
+          }
         }
-      }
-      output_2{
-        connections{
-          node
-          input
+        outputs{
+          output_1{
+            connections{
+                  node
+                  output
+            }
+          }
+          output_2{
+            connections{
+              node
+              input
+            }
+          }
         }
-        }
-    }
-    pos_x
-    pos_y
+        pos_x
+        pos_y
+     }
    }
- }
-}
+  }
 `
 
 // func getAllPrograms(w http.ResponseWriter, r *http.Request) {
