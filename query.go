@@ -4,6 +4,7 @@ const getNodeData = `
 {
     get(func: has(nodesData)) {
         uid
+        programName
         nodesData (orderasc: id){
             id
             name
