@@ -22,15 +22,11 @@ import (
 
 func newClient() *dgo.Dgraph {
 	// dotenv := goDotEnvVariable("key")
-	// fmt.Printf("godotenv : %s = %s \n", "KEY", dotenv)
 	// conn, err := dgo.DialCloud("https://nameless-brook-350164.eu-central-1.aws.cloud.dgraph.io/graphql", dotenv)
 	conn, err := grpc.Dial("localhost:9080", grpc.WithInsecure())
 	if err != nil {
 		log.Fatal(err)
 	}
-	// defer conn.Close()
-
 	dgraphClient := dgo.NewDgraphClient(api.NewDgraphClient(conn))
-
 	return dgraphClient
 }

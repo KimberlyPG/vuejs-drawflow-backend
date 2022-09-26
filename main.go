@@ -15,7 +15,6 @@ import (
 )
 
 func main() {
-
 	router := chi.NewRouter()
 
 	router.Use(cors.Handler(cors.Options{
@@ -31,6 +30,21 @@ func main() {
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.RealIP)
 	router.Use(middleware.RequestID)
+
+	ServerGo := &http.Server{
+		Addr:           ":5000",
+		Handler:        router,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+
+	err := ServerGo.ListenAndServe()
+	if err != nil {
+		fmt.Println("Server error", err.Error())
+	} else {
+		fmt.Println("Server running in :5000")
+	}
 
 	router.Get("/getAllPrograms", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -132,7 +146,6 @@ func main() {
 		w.Write(resp.Json)
 	})
 
-	// Delete function
 	router.Post("/deleteProgram", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		id := r.URL.Query().Get("id")
@@ -156,19 +169,4 @@ func main() {
 			log.Fatal(err)
 		}
 	})
-
-	ServerGo := &http.Server{
-		Addr:           ":5000",
-		Handler:        router,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
-		MaxHeaderBytes: 1 << 20,
-	}
-
-	err := ServerGo.ListenAndServe()
-	if err != nil {
-		fmt.Println("Server error", err.Error())
-	} else {
-		fmt.Println("Server running in :5000")
-	}
 }
