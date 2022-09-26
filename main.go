@@ -31,21 +31,6 @@ func main() {
 	router.Use(middleware.RealIP)
 	router.Use(middleware.RequestID)
 
-	ServerGo := &http.Server{
-		Addr:           ":5000",
-		Handler:        router,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
-		MaxHeaderBytes: 1 << 20,
-	}
-
-	err := ServerGo.ListenAndServe()
-	if err != nil {
-		fmt.Println("Server error", err.Error())
-	} else {
-		fmt.Println("Server running in :5000")
-	}
-
 	router.Get("/getAllPrograms", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		dgClient := newClient()
@@ -119,10 +104,10 @@ func main() {
 		err := json.NewDecoder(r.Body).Decode(&p)
 		if err != nil {
 			w.WriteHeader(400)
-			fmt.Fprintf(w, "Decode error! please check your JSON formating.")
+			fmt.Fprintf(w, "Decode error")
 		}
 
-		fmt.Printf("Inputed name: %s", p)
+		fmt.Printf("set json: %s", p)
 		dgClient := newClient()
 		txn := dgClient.NewTxn()
 
@@ -169,4 +154,19 @@ func main() {
 			log.Fatal(err)
 		}
 	})
+
+	ServerGo := &http.Server{
+		Addr:           ":5000",
+		Handler:        router,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+
+	err := ServerGo.ListenAndServe()
+	if err != nil {
+		fmt.Printf("Server error: %s", err.Error())
+	} else {
+		fmt.Printf("Server running in :5000")
+	}
 }
